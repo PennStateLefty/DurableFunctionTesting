@@ -4,7 +4,6 @@
 # VS Code and Local Dev Stuff
 __*.json
 __*/
-.vscode
 
 # Azure Functions localsettings file
 local.settings.json
