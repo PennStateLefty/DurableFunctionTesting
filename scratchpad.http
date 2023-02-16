@@ -1,0 +1,14 @@
+##Terminate
+POST http://localhost:7071/runtime/webhooks/durabletask/instances/test_1/terminate?reason=WrongInstanceId&taskHub=DurableFunctionsHub&connection=Storage&code={StorageKey}
+
+###Purge
+DELETE http://localhost:7071/runtime/webhooks/durabletask/instances/test_2?taskHub=DurableFunctionsHub&connection=Storage&code={StorageKey}
+
+###Get Status
+GET http://localhost:7071/runtime/webhooks/durabletask/instances/test_1?taskHub=DurableFunctionsHub&connection=Storage&code={StorageKey}
+
+###Send Event
+POST http://localhost:7071/runtime/webhooks/durabletask/instances/test_1/raiseEvent/FileArrived?taskHub=DurableFunctionsHub&connection=Storage&code={StorageKey}
+Content-Type: application/json
+
+"test_1_jmg.txt"

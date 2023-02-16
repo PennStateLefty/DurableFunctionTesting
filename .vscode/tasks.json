@@ -18,7 +18,7 @@
 			"args": [
 				"build",
 				"/property:GenerateFullPaths=true",
-				"/consoleloggerparameters:NoSummary"
+				"/consoleloggerparameters:NoSummary",
 			],
 			"type": "process",
 			"dependsOn": "clean (functions)",
@@ -56,12 +56,16 @@
 			"problemMatcher": "$msCompile"
 		},
 		{
+			"label": "Launch Function Host",
 			"type": "func",
 			"dependsOn": "build (functions)",
 			"options": {
 				"cwd": "${workspaceFolder}/bin/Debug/net6.0"
 			},
 			"command": "host start",
+			"args": [
+				"--verbose"
+			],
 			"isBackground": true,
 			"problemMatcher": "$func-dotnet-watch"
 		}

@@ -14,6 +14,7 @@ namespace FunctionsDemo.DurableOrchestratorTest
     {
         private IConfiguration _config = null;
 
+        //Example: Using the dependency injection framework to inject an IConfiguration object into the class
         public DurableFunction(IConfiguration config)
         {
             _config = config;
@@ -21,17 +22,21 @@ namespace FunctionsDemo.DurableOrchestratorTest
 
         [FunctionName("DurableFunction")]
         public async Task<List<string>> RunOrchestrator(
-            [OrchestrationTrigger] IDurableOrchestrationContext context)
+            [OrchestrationTrigger] IDurableOrchestrationContext context, ILogger log)
         {
             var outputs = new List<string>();
 
-
-            
             // Replace "hello" with the name of your Durable Activity Function.
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "Tokyo"));
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "Seattle"));
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "London"));
+
+            //Example: pulling values from configuration and using them within the application
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello),  _config.GetValue<string>("ReadMe")));
+            
+            //Wait on a raised event from an external source
+            outputs.Add(await context.WaitForExternalEvent<string>("FileArrived"));
+            log.LogInformation("FileArrived event should have fired if you're here");
 
             // returns ["Hello Tokyo!", "Hello Seattle!", "Hello London!"]
             return outputs;
@@ -50,11 +55,11 @@ namespace FunctionsDemo.DurableOrchestratorTest
             [DurableClient] IDurableOrchestrationClient starter,
             ILogger log)
         {
+            var instanceId = req.RequestUri.ParseQueryString().GetValues("instance");
             // Function input comes from the request content.
-            string instanceId = await starter.StartNewAsync("DurableFunction", null);
+            await starter.StartNewAsync("DurableFunction", instanceId[0]);
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
-
-            return starter.CreateCheckStatusResponse(req, instanceId);
+            return starter.CreateCheckStatusResponse(req, instanceId[0]);
         }
     }
 }

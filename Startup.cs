@@ -1,7 +1,9 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 
+
+//Note: this assembly annotation is needed to provide an overloaded entrypoint for the Function host and give us a place to wire dependency injection and configuration
 [assembly: FunctionsStartup(typeof(FunctionsDemo.Startup))]
 namespace FunctionsDemo
 {
@@ -11,7 +13,8 @@ namespace FunctionsDemo
 
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            //builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient();
+            //builder.Services.Add();
         }
 
         public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
