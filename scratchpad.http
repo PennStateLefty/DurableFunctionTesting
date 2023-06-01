@@ -1,14 +1,18 @@
-##Terminate
-POST http://localhost:7071/runtime/webhooks/durabletask/instances/test_1/terminate?reason=WrongInstanceId&taskHub=DurableFunctionsHub&connection=Storage&code={StorageKey}
+@host = localhost:7071
+@instanceId = <Retrieve from kickoff request>
+@storagekey = <Retrieve from kickoff request - NEVER check-in to SCM>
 
-###Purge
-DELETE http://localhost:7071/runtime/webhooks/durabletask/instances/test_2?taskHub=DurableFunctionsHub&connection=Storage&code={StorageKey}
 
-###Get Status
-GET http://localhost:7071/runtime/webhooks/durabletask/instances/test_1?taskHub=DurableFunctionsHub&connection=Storage&code={StorageKey}
+###
 
-###Send Event
-POST http://localhost:7071/runtime/webhooks/durabletask/instances/test_1/raiseEvent/FileArrived?taskHub=DurableFunctionsHub&connection=Storage&code={StorageKey}
-Content-Type: application/json
+###Kickoff New Orchestrator
+POST http://{{host}}/api/DurableFunction_HttpStart
 
-"test_1_jmg.txt"
+###Get Orchestrator Status
+GET http://{{host}}/runtime/webhooks/durabletask/instances/{{instanceId}}?taskHub=DurableFunctionsHub&connection=Storage&code={{storagekey}}
+
+###Terminate Orchestrator
+POST http://{{host}}/runtime/webhooks/durabletask/instances/{{instanceId}}/terminate?reason=WrongInstanceId&taskHub=DurableFunctionsHub&connection=Storage&code={{storagekey}}
+
+###Purge Orchestrator
+DELETE http://{{host}}/runtime/webhooks/durabletask/instances/{{instanceId}}?taskHub=DurableFunctionsHub&connection=Storage&code={{storagekey}}

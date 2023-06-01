@@ -13,7 +13,6 @@ namespace DurableFunction
 {
     public class ProcessFileChanges
     {
-        private const String DURABLE_FUNCTION_EVENT_URI = "http://{0}/runtime/webhooks/durabletask/instances/{1}/raiseEvent/FileArrived?taskHub={2}&connection=Storage&code={3}";
         private readonly HttpClient _client;
         private readonly IConfiguration _config;
 

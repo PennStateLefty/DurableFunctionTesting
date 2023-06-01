@@ -55,7 +55,10 @@ namespace FunctionsDemo.DurableOrchestratorTest
             [DurableClient] IDurableOrchestrationClient starter,
             ILogger log)
         {
-            var instanceId = req.RequestUri.ParseQueryString().GetValues("instance");
+            var instanceId = req.RequestUri.ParseQueryString().GetValues("instance") != null ? 
+                req.RequestUri.ParseQueryString().GetValues("instance") : 
+                new string[] { System.Guid.NewGuid().ToString() };
+
             // Function input comes from the request content.
             await starter.StartNewAsync("DurableFunction", instanceId[0]);
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
