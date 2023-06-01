@@ -28,7 +28,7 @@ This sample demonstrates how to use the [Durable Functions](https://docs.microso
 - [Azure Function App](https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-app-portal)
   - Consumption tier, Windows hosting, .NET 6 runtime
 - [Event Grid Subscription](https://learn.microsoft.com/en-us/azure/event-grid/subscribe-through-portal)
-  - [Example Setup]](https://learn.microsoft.com/en-us/azure/azure-functions/functions-event-grid-blob-trigger?pivots=programming-language-csharp)
+  - [Example Setup](https://learn.microsoft.com/en-us/azure/azure-functions/functions-event-grid-blob-trigger?pivots=programming-language-csharp)
 
 ## Setup
 1. Clone the repository locally
